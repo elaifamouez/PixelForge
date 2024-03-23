@@ -4,11 +4,11 @@ A layout is UI that is shared between multiple routes. On navigation, layouts pr
 
 You can define a layout by default exporting a React component from a layout.js file. The component should accept a children prop that will be populated with a child layout (if it exists) or a page during rendering.
 */
-
+ // layouts always have to export some children within them (see more in NEXT.js documentation)
 const Layout = ({ children }: {children: React.ReactNode}) => {
   return (
     <main className='auth'>{children}</main>
   )
 }
-
+/* Typical layouts will allow you to put shared UI (using children) for different routes, such as header and footer. Of course, in "auth" routes we don't want to put footer and navbar, but for home page routes they would be included. It would prevent you from needing to duplicate those components for *every* route. */
 export default Layout
