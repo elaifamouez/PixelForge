@@ -25,14 +25,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { aspectRatioOptions, creditFee, defaultValues, transformationTypes } from "@/constants"
 import { CustomField } from "./CustomField"
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils"
-import TransformedImage from "./TransformedImage"
+import { updateCredits } from "@/lib/actions/user.actions"
 import MediaUploader from "./MediaUploader"
+import TransformedImage from "./TransformedImage"
+import { getCldImageUrl } from "next-cloudinary"
 import { addImage, updateImage } from "@/lib/actions/image.actions"
 import { useRouter } from "next/navigation"
-import { getCldImageUrl } from "next-cloudinary"
-import { updateCredits } from "@/lib/actions/user.actions"
+import { InsufficientCreditsModal } from "./InsufficientCreditsModal"
 
 export const formSchema = z.object({
   title: z.string(),
@@ -43,7 +44,7 @@ export const formSchema = z.object({
 })
 
 const TransformationForm = ({ action, data = null, userId, type, creditBalance, config = null}: TransformationFormProps) => {
-  const transforamtionType = transformationTypes[type];
+  const transformationType = transformationTypes[type];
 
   const router = useRouter()
   const [image, setImage] = useState(data)
@@ -146,7 +147,7 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
       height: imageSize.height,
     }))
 
-    setNewTransformation(transforamtionType.config)
+    setNewTransformation(transformationType.config)
     return onChangeField(value)
   }
 
@@ -178,10 +179,17 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
       await updateCredits(userId, creditFee)
     })
   }
+  useEffect(() => {
+    if(image && (type === 'restore' || type === 'removeBackground')){
+      setNewTransformation(transformationType.config)
+    }
+  },[image, transformationType.config, type])
+
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
        <CustomField 
         control={form.control}
         name="title"
