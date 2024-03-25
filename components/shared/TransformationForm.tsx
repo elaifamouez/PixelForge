@@ -1,9 +1,9 @@
 "use client"
-
+ 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+ 
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -62,13 +62,12 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
     prompt: data?.prompt,
     publicId: data?.publicId,
   }: defaultValues
-
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues,
   })
-
-  // 2. Define a submit handler.
+ 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
     setIsSubmitting(true)
@@ -152,20 +151,22 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
   }
 
   const onInputChangeHandler = (fieldName: string, value: string, type: string, onChangeField: (value: string) => void) => {
-    debounce(() => {}, 1000)
-
-    setNewTransformation((prevState: any) => ({
-      ...prevState,
-      [type]: {
-        ...prevState?.[type],
-        [fieldName === 'prompt'? 'prompt': 'to'] : value
-      }
-    }))
-
+    debounce(() => {
+      setNewTransformation((prevState: any) => ({
+        ...prevState,
+        [type]: {
+          ...prevState?.[type],
+          [fieldName === 'prompt' ? 'prompt' : 'to' ]: value 
+        }
+      }))
+      
+    }, 1000)();
+      
     return onChangeField(value)
   }
 
   const onTransformHandler = async () => {
+    console.log('transforming...')
     setIsTransforming(true)
 
     setTransformationConfig(
@@ -174,22 +175,21 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
 
     setNewTransformation(null)
 
-    // TODO: updateCredits
     startTransition(async () => {
       await updateCredits(userId, creditFee)
     })
   }
+
   useEffect(() => {
     if(image && (type === 'restore' || type === 'removeBackground')){
       setNewTransformation(transformationType.config)
     }
   },[image, transformationType.config, type])
 
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-      {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
+        {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
        <CustomField 
         control={form.control}
         name="title"
@@ -205,8 +205,8 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
             className="w-full"
             render={({ field }) => (
               <Select
-                  onValueChange={(value: any) => 
-                  onSelectFieldHandler(value, field.onChange)}
+                  onValueChange={(value: any) => onSelectFieldHandler(value, field.onChange)}
+                  value={field.value}
               >
               <SelectTrigger className="select-field">
                 <SelectValue placeholder="Select size" />
@@ -220,10 +220,9 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
                 ))}
               </SelectContent>
             </Select>
-
             )}
           />
-
+      
        )}
 
        {(type === 'remove' || type === 'recolor') && (
@@ -269,6 +268,7 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
           )}
         </div>
        )}
+
        <div className="media-uploader-field">
           <CustomField 
             control={form.control}
@@ -284,7 +284,7 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
               />
             ) }
           />
-        <TransformedImage 
+          <TransformedImage 
             image={image}
             type={type}
             title={form.getValues().title}
@@ -317,4 +317,5 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
   </Form>
   )
 }
+
 export default TransformationForm
