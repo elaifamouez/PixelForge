@@ -82,12 +82,12 @@ You can obtain these credentials by signing up on the
 - The public directory contains static assets like icons, images, and SVGs.
 - The types directory defines TypeScript types and interfaces for structured data handling.
 
-### API Routes 
+## API Routes
 
-The application includes several API routes designed to handle specific functionalities within the web application.
+### User Management API Routes:
 
-Here's a summary of the identified API routes and their purposes:
+#### Sign Up
 
-**User Management API Routes:**
-
-***POST /api/users:*** Creates a new user with properties specified in the request body.
+- **URL:** `/api/users`
+- **Method:** `POST`
+- **Purpose:** `Creates a new user with properties specified in the request body.`
