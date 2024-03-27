@@ -84,32 +84,10 @@ You can obtain these credentials by signing up on the
 
 ### API Routes 
 
-The application includes several API routes designed to handle specific functionalities within the web application. 
+The application includes several API routes designed to handle specific functionalities within the web application.
 
 Here's a summary of the identified API routes and their purposes:
 
-** User Management API Routes: ** 
+**User Management API Routes:**
 
-POST /api/users: Creates a new user with properties specified in the request body.
-PUT /api/users/:userId: Updates an existing user identified by userId with the updated properties in the request body.
-DELETE /api/users/:userId: Deletes a user identified by userId.
-GET /api/users/:userId: Retrieves details of a user identified by userId.
-
-** Image Management API Routes: **
-
-POST /api/images: Adds a new image with properties specified in the request body.
-PUT /api/images/:imageId: Updates an existing image identified by imageId with the updated properties in the request body.
-DELETE /api/images/:imageId: Deletes an image identified by imageId.
-GET /api/images/:imageId: Retrieves details of a specific image identified by imageId.
-GET /api/images: Retrieves a list of images, with optional filters for pagination and search queries.
-GET /api/images/user/:userId: Retrieves all images uploaded by a specific user identified by userId.
-
-** Transaction API Routes: ** 
-
-POST /api/transactions/checkout: Initiates a checkout process for purchasing credits, using properties specified in the request body.
-POST /api/transactions: Creates a new transaction record with details specified in the request body.
-
-** Webhook API Routes: ** 
-
-POST /api/webhooks/clerk: Handles webhook events from Clerk for user authentication-related events.
-POST /api/webhooks/stripe: Handles webhook events from Stripe for payment and transaction-related events.
+***POST /api/users:*** Creates a new user with properties specified in the request body.
