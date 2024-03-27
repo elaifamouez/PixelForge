@@ -27,7 +27,7 @@ PixelForge is a web-based image editor powered by AI. It allows users to enhance
 
 To get started with PixelPerfect, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/ai-photo-editor.git`
+1. Clone the repository: `git clone https://github.com/elaifamouez/pixelforge.git`
 2. Install the dependencies: `npm install`
 3. Start the development server: `npm run dev`
 4. Open your browser and navigate to `http://localhost:3000`
@@ -74,7 +74,7 @@ You can obtain these credentials by signing up on the
 [Clerk](https://clerk.com/), [MongoDB](https://www.mongodb.com/),
 [Cloudinary](https://cloudinary.com/) and [Stripe](https://stripe.com)
 
-**Project Structure**
+### Project Structure
 
 - The app directory contains the Next.js pages and API routes, organized into authenticated (auth) and root (root) sections.
 - The components directory houses shared UI components and custom UI elements designed for specific functionalities like alerts, forms, and navigation.
