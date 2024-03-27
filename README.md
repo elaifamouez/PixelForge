@@ -1,6 +1,6 @@
-# PixelPerfect: An AI-Powered Photo Editor
+# PixelForge: An AI-Powered Image Editor
 
-PixelForge is a web-based photo editor powered by AI. It allows users to enhance and manipulate their photos using advanced algorithms and machine learning techniques.
+PixelForge is a web-based image editor powered by AI. It allows users to enhance and manipulate their images using advanced algorithms and machine learning techniques.
 
 ## Features
 
@@ -73,3 +73,11 @@ Replace the placeholder values with your actual respective account credentials.
 You can obtain these credentials by signing up on the
 [Clerk](https://clerk.com/), [MongoDB](https://www.mongodb.com/),
 [Cloudinary](https://cloudinary.com/) and [Stripe](https://stripe.com)
+
+**Project Structure**
+
+- The app directory contains the Next.js pages and API routes, organized into authenticated (auth) and root (root) sections.
+- The components directory houses shared UI components and custom UI elements designed for specific functionalities like alerts, forms, and navigation.
+- The lib directory includes action functions for interacting with the database and utility functions for general purposes.
+- The public directory contains static assets like icons, images, and SVGs.
+- The types directory defines TypeScript types and interfaces for structured data handling.
