@@ -1,6 +1,6 @@
 # PixelPerfect: An AI-Powered Photo Editor
 
-PixelPerfect is a web-based photo editor powered by AI. It allows users to enhance and manipulate their photos using advanced algorithms and machine learning techniques.
+PixelForge is a web-based photo editor powered by AI. It allows users to enhance and manipulate their photos using advanced algorithms and machine learning techniques.
 
 ## Features
 
