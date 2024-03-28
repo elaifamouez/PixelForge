@@ -86,8 +86,52 @@ You can obtain these credentials by signing up on the
 
 ### User Management API Routes:
 
-#### Sign Up
+#### createUser
 
 - **URL:** `/api/users`
 - **Method:** `POST`
 - **Purpose:** `Creates a new user with properties specified in the request body.`
+
+#### updateUser
+
+- **URL:** `/api/users/:userId`
+- **Method:** `PUT`
+- **Purpose:** `Updates an existing user identified by userId with the updated properties in the request body.`
+
+#### deleteUser
+
+- **URL:** `/api/users/:userId`
+- **Method:** `DELETE`
+- **Purpose:** `Deletes a user identified by userId.`
+
+#### getUserById
+
+- **URL:** `/api/users/:userId`
+- **Method:** `GET`
+- **Purpose:** `Retrieves details of a user identified by userId.`
+
+### Image Management API Routes:
+
+#### addImage
+
+- **URL:** `/api/images`
+- **Method:** `POST`
+- **Purpose:** `Adds a new image with properties specified in the request body.`
+
+#### updateImage
+
+- **URL:** `/api/images/:imageId`
+- **Method:** `PUT`
+- **Purpose:** `Updates an existing image identified by imageId with the updated properties in the request body.`
+
+#### createUser
+
+- **URL:** `/api/users/:userId`
+- **Method:** `GET`
+- **Purpose:** `Retrieves details of a user identified by userId.`
+POST /api/images: Adds a new image with properties specified in the request body.
+PUT /api/images/:imageId: Updates an existing image identified by imageId with the updated properties in the request body.
+DELETE /api/images/:imageId: Deletes an image identified by imageId.
+GET /api/images/:imageId: Retrieves details of a specific image identified by imageId.
+GET /api/images: Retrieves a list of images, with optional filters for pagination and search queries.
+GET /api/images/user/:userId: Retrieves all images uploaded by a specific user identified by userId.
