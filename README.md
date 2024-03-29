@@ -76,7 +76,7 @@ You can obtain these credentials by signing up on the
 
 ### Project Structure
 
-- The app directory contains the Next.js pages and API routes, organized into authenticated (auth) and root (root) sections.
+- The app directory contains the Next.js pages and iAPI routes, organized into authenticated (auth) and root (root) sections.
 - The components directory houses shared UI components and custom UI elements designed for specific functionalities like alerts, forms, and navigation.
 - The lib directory includes action functions for interacting with the database and utility functions for general purposes.
 - The public directory contains static assets like icons, images, and SVGs.
