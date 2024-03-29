@@ -1,76 +1,88 @@
 "use client";
 
-import { loadStripe } from "@stripe/stripe-js";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
+import { handleError } from "@/lib/utils";
 
 import { useToast } from "@/components/ui/use-toast";
-import { checkoutCredits } from "@/lib/actions/transaction.actions";
 
-import { Button } from "../ui/button";
-
-const Checkout = ({
-  plan,
-  amount,
-  credits,
-  buyerId,
+export const Checkout = ({
+	plan,
+	amount,
+	credits,
+	buyerId,
 }: {
-  plan: string;
-  amount: number;
-  credits: number;
-  buyerId: string;
+	plan: string;
+	amount: number;
+	credits: number;
+	buyerId: string;
 }) => {
-  const { toast } = useToast();
+	const router = useRouter();
 
-  useEffect(() => {
-    loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-  }, []);
+	const { toast } = useToast();
 
-  useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
-    if (query.get("success")) {
-      toast({
-        title: "Order placed!",
-        description: "You will receive an email confirmation",
-        duration: 5000,
-        className: "success-toast",
-      });
-    }
+	const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!;
 
-    if (query.get("canceled")) {
-      toast({
-        title: "Order canceled!",
-        description: "Continue to shop around and checkout when you're ready",
-        duration: 5000,
-        className: "error-toast",
-      });
-    }
-  }, []);
+	const createPayPalOrder = async () => {
+		try {
+			const response = await fetch("api/webhooks/create-paypal-order", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ amount }),
+			});
 
-  const onCheckout = async () => {
-    const transaction = {
-      plan,
-      amount,
-      credits,
-      buyerId,
-    };
+			const order = await response.json();
 
-    await checkoutCredits(transaction);
-  };
+			return order.id;
+		} catch (error) {
+			handleError(error);
+		}
+	};
 
-  return (
-    <form action={onCheckout} method="POST">
-      <section>
-        <Button
-          type="submit"
-          role="link"
-          className="w-full rounded-full bg-purple-gradient bg-cover"
-        >
-          Buy Credit
-        </Button>
-      </section>
-    </form>
-  );
+	const onApprovePayPalOrder = async (order: any) => {
+		try {
+			const response = await fetch("api/webhooks/approve-paypal-order", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ order, plan, amount, credits, buyerId }),
+			});
+
+			const approval = await response.json();
+
+			router.refresh();
+
+			console.log("Approval data: ", approval);
+
+			setTimeout(() => {
+				router.push("/profile");
+			}, 3000);
+
+			toast({
+				title: "Purchase successful",
+				description: "Your purchase was completed successfully.",
+				duration: 5000,
+				className: "success-toast",
+			});
+		} catch (error) {
+			handleError(error);
+		}
+	};
+
+	return (
+		<section>
+			<PayPalScriptProvider options={{ clientId: paypalClientId }}>
+				<PayPalButtons
+					style={{
+						color: "blue",
+						layout: "vertical",
+						shape: "pill",
+						tagline: false,
+					}}
+					createOrder={createPayPalOrder}
+					onApprove={onApprovePayPalOrder}
+				/>
+			</PayPalScriptProvider>
+		</section>
+	);
 };
-
-export default Checkout;
