@@ -68,7 +68,7 @@ export const Checkout = ({
 			handleError(error);
 		}
 	};
-
+// PayPalScriptProvider component ensures that the PayPal script is loaded before rendering PayPalButtons 
 	return (
 		<section>
 			<PayPalScriptProvider options={{ clientId: paypalClientId }}>
