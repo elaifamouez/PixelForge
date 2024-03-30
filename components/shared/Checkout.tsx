@@ -26,7 +26,7 @@ export const Checkout = ({
 
 	const createPayPalOrder = async () => {
 		try {
-			const response = await fetch("api/webhooks/create-paypal-order", {
+			const response = await fetch("api/create-paypal-order", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ amount }),
@@ -42,7 +42,7 @@ export const Checkout = ({
 
 	const onApprovePayPalOrder = async (order: any) => {
 		try {
-			const response = await fetch("api/webhooks/approve-paypal-order", {
+			const response = await fetch("api/approve-paypal-order", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ order, plan, amount, credits, buyerId }),
