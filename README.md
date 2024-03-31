@@ -19,7 +19,7 @@ PixelForge is a web-based image editor powered by AI. It allows users to enhance
 - MongoDB: A NoSQL database that provides a flexible and scalable solution for storing and retrieving user/content/transaction data
 - Cloudinary API: Powerful tool for managing and manipulating images in the cloud using AI
 - Clerk API: For authenticating users and securing their profile
-- Stripe API: For payment processing with regards to image transformation credit plans
+- Paypal API: For payment processing with regards to image transformation credit plans
 - Shadcn: A library for rapid UI development with style props, color modes, themes and variants
 - TailwindCSS: A utility-first CSS framework for rapidly building modern websites straight from HTML
 
@@ -60,10 +60,10 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 
-# Stripe
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
+# Paypal
+NEXT_PUBLIC_PAYPAL_API_URL=
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=
+PAYPAL_APP_SECRET=
 
 # Next
 NEXT_PUBLIC_SERVER_URL=
@@ -72,11 +72,11 @@ NEXT_PUBLIC_SERVER_URL=
 Replace the placeholder values with your actual respective account credentials.
 You can obtain these credentials by signing up on the
 [Clerk](https://clerk.com/), [MongoDB](https://www.mongodb.com/),
-[Cloudinary](https://cloudinary.com/) and [Stripe](https://stripe.com)
+[Cloudinary](https://cloudinary.com/) and [Paypal](https://developer.paypal.com)
 
 ### Project Structure
 
-- The app directory contains the Next.js pages and iAPI routes, organized into authenticated (auth) and root (root) sections.
+- The app directory contains the Next.js pages and API routes, organized into authenticated (auth) and root (root) sections.
 - The components directory houses shared UI components and custom UI elements designed for specific functionalities like alerts, forms, and navigation.
 - The lib directory includes action functions for interacting with the database and utility functions for general purposes.
 - The public directory contains static assets like icons, images, and SVGs.
@@ -91,47 +91,97 @@ You can obtain these credentials by signing up on the
 - **URL:** `/api/users`
 - **Method:** `POST`
 - **Purpose:** `Creates a new user with properties specified in the request body.`
+- **Request Body:** `A JSON object with the following properties:`
+
+```json
+{
+"clerkId": The Clerk ID of the user,
+"email": The user's email address,
+"username": The user's username,
+"firstName": The user's first name,
+"lastName": The user's last name ,
+"photo": The URL to the user's profile picture,
+}
+```
+
+- **Response:**
+
+```json
+{
+  "user": User Object,
+}
+```
 
 #### updateUser
 
 - **URL:** `/api/users/:userId`
 - **Method:** `PUT`
-- **Purpose:** `Updates an existing user identified by userId with the updated properties in the request body.`
+- **Purpose:** `Updates an existing user's information..`
+- **Request Body:** `A JSON object with the properties to update (e.g., firstName, lastName, username, photo).`
 
+```json
+{
+"clerkId": The Clerk ID of the user,
+"email": The user's email address,
+"username": The user's username,
+"firstName": The user's first name,
+"lastName": The user's last name ,
+"photo": The URL to the user's profile picture,
+}
+```
+
+- **Response: The updated user object**
+
+```json
+{
+  "user": User Object,
+}
+```
 #### deleteUser
 
-- **URL:** `/api/users/:userId`
+- **URL:** `/api/users/:userId)`
 - **Method:** `DELETE`
-- **Purpose:** `Deletes a user identified by userId.`
+- **Purpose:** `Deletes a user from the database.`
+- **Request Body:** `A JSON object with the following properties:`
 
-#### getUserById
+```json
+{
+"clerkId": The Clerk ID of the user,
+}
+```
 
-- **URL:** `/api/users/:userId`
+- **Response:The deleted user object**
+
+```json
+{
+  "user": User Object,
+}
+```
+
+#### getUser
+
+- **URL:** `/api/users/:userId)`
 - **Method:** `GET`
-- **Purpose:** `Retrieves details of a user identified by userId.`
+- **Purpose:** `Retrieves the details of a specific user.`
+- **Request Body:** `A JSON object with the following properties:`
 
-### Image Management API Routes:
+```json
+{
+"userId": The MongoDB ID of the user,
+}
+```
 
-#### addImage
+- **Response:A JSON object representing the user**
 
-- **URL:** `/api/images`
-- **Method:** `POST`
-- **Purpose:** `Adds a new image with properties specified in the request body.`
-
-#### updateImage
-
-- **URL:** `/api/images/:imageId`
-- **Method:** `PUT`
-- **Purpose:** `Updates an existing image identified by imageId with the updated properties in the request body.`
-
-#### createUser
-
-- **URL:** `/api/users/:userId`
-- **Method:** `GET`
-- **Purpose:** `Retrieves details of a user identified by userId.`
-POST /api/images: Adds a new image with properties specified in the request body.
-PUT /api/images/:imageId: Updates an existing image identified by imageId with the updated properties in the request body.
-DELETE /api/images/:imageId: Deletes an image identified by imageId.
-GET /api/images/:imageId: Retrieves details of a specific image identified by imageId.
-GET /api/images: Retrieves a list of images, with optional filters for pagination and search queries.
-GET /api/images/user/:userId: Retrieves all images uploaded by a specific user identified by userId.
+```json
+{
+"clerkId": The Clerk ID of the user,
+"email": The user's email address,
+"username": The user's username,
+"firstName": The user's first name,
+"lastName": The user's last name ,
+"photo": The URL to the user's profile picture,
+"plan id": The Plan purchased by the user,
+"CreditBalance": The user balance,
+}
+```
