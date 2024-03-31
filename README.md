@@ -86,21 +86,29 @@ You can obtain these credentials by signing up on the
 
 ### User Management API Routes:
 
-#### createUser
+####  Handles webhook events from Clerk
 
-- **URL:** `/api/users`
+- **URL:** `/api/webhooks/clerk`
 - **Method:** `POST`
-- **Purpose:** `Creates a new user with properties specified in the request body.`
-- **Request Body:** `A JSON object with the following properties:`
+- **Purpose:** `This API route is responsible for processing user events from Clerk and updating the user data in the application's MongoDB database accordingly. It ensures that the user information in the database is synchronized with the user data in Clerk`
+- **Request Body:** `The request body is expected to be a JSON object containing the webhook event data from Clerk. The specific structure of the event data will vary depending on the type of event (e.g., user.created, user.updated, user.deleted).`
+- **this is  an example of the request body for a user.created event:**
 
 ```json
 {
-"clerkId": The Clerk ID of the user,
-"email": The user's email address,
-"username": The user's username,
-"firstName": The user's first name,
-"lastName": The user's last name ,
-"photo": The URL to the user's profile picture,
+  "type": "user.created",
+  "data": {
+    "id": "user_12345",
+    "email_addresses": [
+      {
+        "email_address": "user@example.com"
+      }
+    ],
+    "image_url": "https://example.com/user_image.png",
+    "first_name": "John",
+    "last_name": "Doe",
+    "username": "johndoe"
+  }
 }
 ```
 
@@ -108,80 +116,13 @@ You can obtain these credentials by signing up on the
 
 ```json
 {
-  "user": User Object,
+  "message": "OK",
+  "user": {
+    // Updated user data from the database (if applicable)
+  }
 }
 ```
+- **Note:**
+`message: Indicates the status of the request processing. "OK" signifies successful processing`
+`This field may contain the updated user data from the database if the webhook event resulted in a user creation or update.`
 
-#### updateUser
-
-- **URL:** `/api/users/:userId`
-- **Method:** `PUT`
-- **Purpose:** `Updates an existing user's information..`
-- **Request Body:** `A JSON object with the properties to update (e.g., firstName, lastName, username, photo).`
-
-```json
-{
-"clerkId": The Clerk ID of the user,
-"email": The user's email address,
-"username": The user's username,
-"firstName": The user's first name,
-"lastName": The user's last name ,
-"photo": The URL to the user's profile picture,
-}
-```
-
-- **Response: The updated user object**
-
-```json
-{
-  "user": User Object,
-}
-```
-#### deleteUser
-
-- **URL:** `/api/users/:userId)`
-- **Method:** `DELETE`
-- **Purpose:** `Deletes a user from the database.`
-- **Request Body:** `A JSON object with the following properties:`
-
-```json
-{
-"clerkId": The Clerk ID of the user,
-}
-```
-
-- **Response:The deleted user object**
-
-```json
-{
-  "user": User Object,
-}
-```
-
-#### getUser
-
-- **URL:** `/api/users/:userId)`
-- **Method:** `GET`
-- **Purpose:** `Retrieves the details of a specific user.`
-- **Request Body:** `A JSON object with the following properties:`
-
-```json
-{
-"userId": The MongoDB ID of the user,
-}
-```
-
-- **Response:A JSON object representing the user**
-
-```json
-{
-"clerkId": The Clerk ID of the user,
-"email": The user's email address,
-"username": The user's username,
-"firstName": The user's first name,
-"lastName": The user's last name ,
-"photo": The URL to the user's profile picture,
-"plan id": The Plan purchased by the user,
-"CreditBalance": The user balance,
-}
-```
