@@ -1,3 +1,7 @@
+Portfolio Project for ALX Software Engineering Program.
+
+<img alt="PixelForge Project" src="https://github.com/elaifamouez/IoTPulse/blob/18f6587151857dc0a2b20e1e513618191380a1d3/IoTPulse.jpg" width="550" height="350">
+
 # PixelForge: An AI-Powered Image Editor
 
 PixelForge is a web-based image editor powered by AI. It allows users to enhance and manipulate their images using advanced algorithms and machine learning techniques.
