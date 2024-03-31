@@ -1,6 +1,6 @@
-Portfolio Project for ALX Software Engineering Program.
+# Portfolio Project for ALX Software Engineering Program.
 
-<img alt="PixelForge Project" src="https://github.com/elaifamouez/IoTPulse/blob/18f6587151857dc0a2b20e1e513618191380a1d3/IoTPulse.jpg" width="550" height="350">
+<img alt="PixelForge Project" src="https://github.com/elaifamouez/pixelforge/blob/b9f5e832e8f8e1f05e623618af745161951744a4/public/alxlogo.png" width="150" height="150">
 
 # PixelForge: An AI-Powered Image Editor
 
