@@ -124,5 +124,42 @@ You can obtain these credentials by signing up on the
 ```
 - **Note:**
 `message: Indicates the status of the request processing. "OK" signifies successful processing`
+
 `This field may contain the updated user data from the database if the webhook event resulted in a user creation or update.`
 
+### Transaction Management API Routes:
+
+####  handles webhook notifications from PayPal when a user successfully completes a payment for purchasing credits
+
+- **URL:** `/api/webhooks/approve-paypal-order`
+- **Method:** `POST`
+- **Purpose:** `his API route is responsible for processing successful PayPal transactions and updating the user's credit balance in the application's database. It ensures that users receive the credits they purchased and that the transaction is recorded for future reference.`
+- **Request Body:** `The request body is expected to be a JSON object containing information about the approved PayPal order, the selected credit package, and the buyer's ID. Here's an example structure:`
+- **this is  an example of the request body for a user.created event:**
+
+```json
+{
+  "order": {
+    "orderID": "order_12345",
+    // ... other PayPal order details
+  },
+  "plan": "Pro Package",
+  "amount": 40,
+  "credits": 120,
+  "buyerId": "user_12345"
+}
+```
+
+- **Response:**
+
+```json
+{
+  "message": "OK",
+  "transaction": {
+    // Details of the newly created transaction
+  }
+}
+```
+- **Note:**
+`message: Indicates the status of the request processing. "OK" signifies successful processing`
+`This field may contain the details of the newly created transaction document in the database.`
