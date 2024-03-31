@@ -191,3 +191,9 @@ You can obtain these credentials by signing up on the
 ```
 - **Note:**
 `id: This field contains the ID of the newly created PayPal order.`
+
+
+### Developed By
+
+- [Kusare Chuwa Kusare](https://github.com/count58) 
+- [elaifamouez](https://github.com/elaifamouez) 
