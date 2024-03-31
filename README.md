@@ -84,7 +84,7 @@ You can obtain these credentials by signing up on the
 
 ## API Routes
 
-### User Management API Routes:
+### WebHooks User Management API Routes:
 
 ####  Handles webhook events from Clerk
 
@@ -163,3 +163,27 @@ You can obtain these credentials by signing up on the
 - **Note:**
 `message: Indicates the status of the request processing. "OK" signifies successful processing`
 `This field may contain the details of the newly created transaction document in the database.`
+
+####  This API route is responsible for creating a PayPal order when a user decides to purchase credits
+
+- **URL:** `/api/webhooks/create-paypal-order`
+- **Method:** `POST`
+- **Purpose:** `This API route interacts with the PayPal API to create a new order based on the selected credit package and amount. It returns the order ID to the frontend, which is then used to redirect the user to PayPal's payment page to complete the purchase.`
+- **Request Body:** `The request body is expected to be a JSON object containing the amount to be charged for the credit package. Here's an example structure:`
+- **this is  an example of the request body :**
+
+```json
+{
+  "amount": 40
+}
+```
+
+- **Response:**
+
+```json
+{
+  "id": "order_12345"
+}
+```
+- **Note:**
+`id: This field contains the ID of the newly created PayPal order.`
